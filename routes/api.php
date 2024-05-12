@@ -14,6 +14,6 @@ Route::middleware('guest')->group(function () {
 	Route::post('/login', [AuthController::class, 'login'])->name('login')->middleware('verified');
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 
 Route::get('/email-verify/{id}/{hash}', [EmailController::class, 'verifyEmail'])->middleware(['signed'])->name('verification.verify');
