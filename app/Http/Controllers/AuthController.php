@@ -8,6 +8,7 @@ use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
 use App\Notifications\EmailVerificationNotification;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -39,5 +40,16 @@ class AuthController extends Controller
 			return response()->json(['message' => 'Your have successfully logged in.'], 200);
 		}
 		return response()->json(['password' => 'Provided credentials are not valid. Please, try again.'], 401);
+	}
+
+	public function logout(Request $request): JsonResponse
+	{
+		Auth::guard('web')->logout();
+
+		$request->session()->invalidate();
+
+		$request->session()->regenerateToken();
+
+		return response()->json(['message' => 'Your have successfully logged out.'], 200);
 	}
 }
