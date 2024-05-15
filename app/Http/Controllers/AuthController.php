@@ -39,7 +39,7 @@ class AuthController extends Controller
 
 			return response()->json(['message' => 'Your have successfully logged in.'], 200);
 		}
-		return response()->json(['password' => 'Provided credentials are not valid. Please, try again.'], 401);
+		return response()->json(['username_or_email' => 'Provided credentials are not valid. Please, try again.'], 404);
 	}
 
 	public function logout(Request $request): JsonResponse
