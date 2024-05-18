@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Actions\EmailVerificationUrl;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
-use App\Jobs\SendEmailVerificationNotification;
 use App\Models\User;
+use App\Notifications\EmailVerificationNotification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +21,7 @@ class AuthController extends Controller
 
 		$verificationUrl = EmailVerificationUrl::handle($user);
 
-		SendEmailVerificationNotification::dispatch($user, $verificationUrl);
+		$user->notify(new EmailVerificationNotification($verificationUrl));
 
 		return response()->json(['message' => 'User has been registered successfully'], 201);
 	}
