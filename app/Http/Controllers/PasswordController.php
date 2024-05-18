@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\PasswordResetRequest;
+use App\Jobs\SendPasswordResetNotification;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
@@ -23,9 +24,11 @@ class PasswordController extends Controller
 			return response()->json(['email' => 'User with provided email does not exist'], 404);
 		}
 
-		$status = Password::sendResetLink(
-			$email
-		);
+		// $status = Password::sendResetLink(
+		// 	$email
+		// );
+
+		SendPasswordResetNotification::dispatch($email);
 
 		return response()->json(['message' => 'Password reset email successfully sent.'], 200);
 	}
