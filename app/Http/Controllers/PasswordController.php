@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 class PasswordController extends Controller
@@ -23,10 +22,6 @@ class PasswordController extends Controller
 		if (!$user) {
 			return response()->json(['email' => 'User with provided email does not exist'], 404);
 		}
-
-		// $status = Password::sendResetLink(
-		// 	$email
-		// );
 
 		SendPasswordResetNotification::dispatch($email);
 

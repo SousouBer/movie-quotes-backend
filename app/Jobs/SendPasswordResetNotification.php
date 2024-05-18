@@ -15,13 +15,13 @@ class SendPasswordResetNotification implements ShouldQueue
 
 	protected $email;
 
-	public function __construct(string $email)
+	public function __construct(array $email)
 	{
 		$this->email = $email;
 	}
 
 	public function handle(): void
 	{
-		Password::sendResetLink(['email' => $this->email]);
+		Password::sendResetLink($this->email);
 	}
 }
