@@ -32,7 +32,7 @@ class PasswordController extends Controller
 	{
 		$password = $request->validated();
 
-		$user = User::whereFirst('email', $email);
+		$user = User::where('email', $email)->first();
 
 		$user->forceFill([
 			'password' => Hash::make($password['password']),

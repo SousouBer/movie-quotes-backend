@@ -14,6 +14,7 @@ Route::middleware('guest')->group(function () {
 	Route::post('/register', [AuthController::class, 'register'])->name('register');
 	Route::post('/login', [AuthController::class, 'login'])->name('login')->middleware('verified');
 	Route::post('/forgot-password', [PasswordController::class, 'forgotPassword'])->name('password.forgot');
+	Route::post('/resend-email-verification/{email}', [EmailController::class, 'resendEmailVerification'])->name('email.resend_verification');
 	Route::post('/reset-password/{email}/{token}', [PasswordController::class, 'resetPassword'])->name('password.reset');
 });
 
