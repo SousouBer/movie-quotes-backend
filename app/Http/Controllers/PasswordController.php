@@ -23,6 +23,10 @@ class PasswordController extends Controller
 			return response()->json(['email' => 'User with provided email does not exist'], 404);
 		}
 
+		if ($user->google_id) {
+			return response()->json(['email' => 'Use your Google account to log in instead.'], 404);
+		}
+
 		Password::sendResetLink($email);
 
 		return response()->json(['message' => 'Password reset email successfully sent.'], 200);
