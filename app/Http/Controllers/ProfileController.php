@@ -9,6 +9,8 @@ class ProfileController extends Controller
 {
 	public function update(UpdateProfileRequest $request): JsonResponse
 	{
+		$fields = $request->validated();
+
 		return response()->json(['message' => 'User profile was successfully changed', 201]);
 	}
 }
