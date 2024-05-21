@@ -15,6 +15,8 @@ class ProfileController extends Controller
 
 		$user = Auth::user();
 
+		// WIll add changing the avatar with frontend.
+
 		if ($request->filled('username')) {
 			$user->username = $fields['username'];
 		}
