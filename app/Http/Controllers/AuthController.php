@@ -17,6 +17,8 @@ class AuthController extends Controller
 	{
 		$credentials = $request->validated();
 
+		$credentials['avatar'] = 'images/default-avatar.png';
+
 		$user = User::create($credentials);
 
 		$verificationUrl = EmailVerificationUrl::handle($user);
