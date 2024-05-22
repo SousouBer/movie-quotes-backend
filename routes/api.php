@@ -6,6 +6,10 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GoogleAuthController;
+
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('auth.google_callback');
+Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect'])->name('auth.google_redirect');
 
 Route::get('/user', [UserController::class, 'show'])->name('user.show')->middleware('auth:sanctum');
 

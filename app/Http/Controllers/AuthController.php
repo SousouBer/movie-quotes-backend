@@ -36,6 +36,12 @@ class AuthController extends Controller
 
 		$remember = $credentials['remember'] ?? false;
 
+		$user = User::where($field, $credentials['username_or_email'])->first();
+
+		if ($user && $user->google_id !== null) {
+			return response()->json(['username_or_email' => 'Provided username or email has a Google account.'], 404);
+		}
+
 		if (Auth::attempt([$field => $credentials['username_or_email'], 'password' => $credentials['password']], $remember)) {
 			$request->session()->regenerate();
 
