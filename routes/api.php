@@ -3,12 +3,15 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\PasswordController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GoogleAuthController;
 
-Route::get('/user', function (Request $request) {
-	return $request->user();
-})->middleware('auth:sanctum');
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('auth.google_callback');
+Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect'])->name('auth.google_redirect');
+
+Route::get('/user', [UserController::class, 'show'])->name('user.show')->middleware('auth:sanctum');
 
 Route::middleware('guest')->group(function () {
 	Route::post('/register', [AuthController::class, 'register'])->name('register');
@@ -21,3 +24,5 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 
 Route::get('/email-verify/{id}/{hash}', [EmailController::class, 'verifyEmail'])->middleware(['signed'])->name('verification.verify');
+
+Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth:sanctum');

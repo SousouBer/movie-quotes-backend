@@ -17,6 +17,8 @@ class AuthController extends Controller
 	{
 		$credentials = $request->validated();
 
+		$credentials['avatar'] = 'images/default-avatar.png';
+
 		$user = User::create($credentials);
 
 		$verificationUrl = EmailVerificationUrl::handle($user);
@@ -33,6 +35,12 @@ class AuthController extends Controller
 		$field = filter_var($credentials['username_or_email'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
 		$remember = $credentials['remember'] ?? false;
+
+		$user = User::where($field, $credentials['username_or_email'])->first();
+
+		if ($user && $user->google_id !== null) {
+			return response()->json(['username_or_email' => 'Provided username or email has a Google account.'], 404);
+		}
 
 		if (Auth::attempt([$field => $credentials['username_or_email'], 'password' => $credentials['password']], $remember)) {
 			$request->session()->regenerate();
