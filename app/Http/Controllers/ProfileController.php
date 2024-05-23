@@ -17,6 +17,8 @@ class ProfileController extends Controller
 
 		// WIll add changing the avatar with frontend.
 
+		// dd($request->avatar);
+
 		if ($request->filled('username')) {
 			$user->username = $fields['username'];
 		}
