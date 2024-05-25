@@ -15,7 +15,9 @@ class ProfileController extends Controller
 
 		$user = Auth::user();
 
-		// WIll add changing the avatar with frontend.
+		if ($request->file('avatar')) {
+			$user->avatar = '/storage/' . $request->file('avatar')->store('avatars', 'public');
+		}
 
 		if ($request->filled('username')) {
 			$user->username = $fields['username'];
@@ -27,6 +29,6 @@ class ProfileController extends Controller
 
 		$user->save();
 
-		return response()->json(['message' => 'User profile was successfully changed', 201]);
+		return response()->json(['message' => 'User details have been updated successfully!', 201]);
 	}
 }
