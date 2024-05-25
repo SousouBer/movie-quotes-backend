@@ -18,6 +18,8 @@ test('Google redirecting URL is successfully generated', function () {
 });
 
 test('User can successfully log in with correct email and password', function () {
+	$headers = ['Referer' => 'http://127.0.0.1:5173'];
+
 	$userPassword = Str::random(8);
 
 	$user = User::factory()->create([
@@ -29,7 +31,7 @@ test('User can successfully log in with correct email and password', function ()
 		'password'          => $userPassword,
 	];
 
-	$response = $this->post(route('login'), $credentials);
+	$response = $this->withHeaders($headers)->post(route('login'), $credentials);
 
 	$response->assertStatus(200);
 
@@ -37,6 +39,8 @@ test('User can successfully log in with correct email and password', function ()
 });
 
 test('User can successfully log in with correct username and password', function () {
+	$headers = ['Referer' => 'http://127.0.0.1:5173'];
+
 	$userPassword = Str::random(8);
 
 	$user = User::factory()->create([
@@ -48,7 +52,7 @@ test('User can successfully log in with correct username and password', function
 		'password'          => $userPassword,
 	];
 
-	$response = $this->post(route('login'), $credentials);
+	$response = $this->withHeaders($headers)->post(route('login'), $credentials);
 
 	$response->assertStatus(200);
 
@@ -56,6 +60,8 @@ test('User can successfully log in with correct username and password', function
 });
 
 test('User can not log in with invalid credentials', function () {
+	$headers = ['Referer' => 'http://127.0.0.1:5173'];
+
 	$userPassword = Str::random(8);
 	$wrongPassword = Str::random(8);
 
@@ -68,7 +74,7 @@ test('User can not log in with invalid credentials', function () {
 		'password'          => $wrongPassword,
 	];
 
-	$response = $this->post(route('login'), $credentials);
+	$response = $this->withHeaders($headers)->post(route('login'), $credentials);
 
 	$response->assertStatus(404);
 
@@ -130,4 +136,22 @@ test('User can not log in without email or username', function () {
 	$response->assertStatus(302);
 
 	$this->assertNotTrue(Auth::check());
+});
+
+test('User can successfully log out', function () {
+	$user = User::factory()->create();
+
+	// $this->actingAs($user);
+
+	$this->actingAs($user, [], 'web');
+
+	$headers = ['Referer' => 'http://127.0.0.1:5173'];
+
+	$response = $this->withHeaders($headers)->post(route('logout'));
+
+	$response->assertStatus(200);
+
+	// $this->flushSession();
+
+	$this->assertGuest();
 });
