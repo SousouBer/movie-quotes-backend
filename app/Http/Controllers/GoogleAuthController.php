@@ -10,9 +10,10 @@ use Laravel\Socialite\Facades\Socialite;
 
 class GoogleAuthController extends Controller
 {
-	public function redirect(Request $request): string
+	public function redirect(Request $request): JsonResponse
 	{
-		return Socialite::driver('google')->redirect()->getTargetUrl();
+		$redirectUrl = Socialite::driver('google')->stateless()->redirect()->getTargetUrl();
+		return response()->json(['redirectUrl' => $redirectUrl], 200);
 	}
 
 	public function callback(Request $request): JsonResponse
