@@ -10,11 +10,10 @@ return new class extends Migration {
 	 */
 	public function up(): void
 	{
-		Schema::create('comments', function (Blueprint $table) {
+		Schema::create('genre_movie', function (Blueprint $table) {
 			$table->id();
-			$table->foreignId('user_id')->constrained()->cascadeOnDelete();
-			$table->foreignId('quote_id')->constrained()->cascadeOnDelete();
-			$table->json('comment');
+			$table->foreignId('genre_id')->constrained()->cascadeOnDelete();
+			$table->foreignId('movie_id')->constrained()->cascadeOnDelete();
 			$table->timestamps();
 		});
 	}
@@ -24,6 +23,6 @@ return new class extends Migration {
 	 */
 	public function down(): void
 	{
-		Schema::dropIfExists('comments');
+		Schema::dropIfExists('genre_movie');
 	}
 };
