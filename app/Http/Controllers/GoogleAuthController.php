@@ -18,7 +18,7 @@ class GoogleAuthController extends Controller
 
 	public function callback(Request $request): JsonResponse
 	{
-		$googleUser = Socialite::driver('google')->user();
+		$googleUser = Socialite::driver('google')->stateless()->user();
 
 		$googleUser = User::updateOrCreate([
 			'google_id' => $googleUser->id,
