@@ -23,8 +23,10 @@ class UserResource extends JsonResource
 		return [
 			'avatar'            => $avatarUrl,
 			'username'          => $this->username,
-			'is_google_account' => $this->whenNotNull($this->google_id),
-			'email'             => $this->email,
+			$this->mergeWhen($request->route()->getName() === 'user.show', [
+				'is_google_account' => $this->whenNotNull($this->google_id),
+				'email'             => $this->email,
+			]),
 		];
 	}
 }
