@@ -16,8 +16,8 @@ class QuoteResource extends JsonResource
 			'likes_count'    => $this->likes()->count(),
 			'comments_count' => $this->comments()->count(),
 			$this->mergeWhen($request->route()->getName() === 'quotes.show', [
-				'quote_author'                  => $this->user,
-				'comments'                      => $this->comments(),
+				'quote_author'                  => UserResource::make($this->user),
+				'comments'                      => CommentResource::collection($this->comments),
 			]),
 		];
 	}

@@ -27,6 +27,9 @@ class UserResource extends JsonResource
 				'is_google_account' => $this->whenNotNull($this->google_id),
 				'email'             => $this->email,
 			]),
+			$this->mergeWhen($request->route()->getName() === 'movies.index', [
+				'movies' => MovieResource::collection($this->movies),
+			]),
 		];
 	}
 }
