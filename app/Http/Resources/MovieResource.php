@@ -14,7 +14,7 @@ class MovieResource extends JsonResource
 			'title'        => $this->title,
 			'poster'       => $this->poster,
 			'quotes_count' => $this->quotes()->count(),
-			'yeat'         => $this->year,
+			'year'         => $this->year,
 			$this->mergeWhen($request->route()->getName() === 'movies.show', [
 				'director'                => $this->director,
 				'genres'                  => GenreResource::collection($this->genres),
