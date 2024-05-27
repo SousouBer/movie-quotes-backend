@@ -18,7 +18,8 @@ test('Google redirecting URL is successfully generated', function () {
 });
 
 test('User can successfully log in with correct email and password', function () {
-	$headers = ['Referer' => 'http://127.0.0.1:5173'];
+	$refererUrl = env('FRONTEND_URL');
+	$headers = ['Referer' => $refererUrl];
 
 	$userPassword = Str::random(8);
 
@@ -39,7 +40,8 @@ test('User can successfully log in with correct email and password', function ()
 });
 
 test('User can successfully log in with correct username and password', function () {
-	$headers = ['Referer' => 'http://127.0.0.1:5173'];
+	$refererUrl = env('FRONTEND_URL');
+	$headers = ['Referer' => $refererUrl];
 
 	$userPassword = Str::random(8);
 
@@ -60,7 +62,8 @@ test('User can successfully log in with correct username and password', function
 });
 
 test('User can not log in with invalid credentials', function () {
-	$headers = ['Referer' => 'http://127.0.0.1:5173'];
+	$refererUrl = env('FRONTEND_URL');
+	$headers = ['Referer' => $refererUrl];
 
 	$userPassword = Str::random(8);
 	$wrongPassword = Str::random(8);
@@ -143,7 +146,8 @@ test('User can successfully log out', function () {
 
 	$this->actingAs($user);
 
-	$headers = ['Referer' => 'http://127.0.0.1:5173'];
+	$refererUrl = env('FRONTEND_URL');
+	$headers = ['Referer' => $refererUrl];
 
 	$response = $this->withHeaders($headers)->post(route('logout'));
 

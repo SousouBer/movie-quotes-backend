@@ -14,7 +14,8 @@ test('Password reset link is successfully sent', function () {
 		'email' => $user->email,
 	];
 
-	$headers = ['Referer' => 'http://127.0.0.1:5173'];
+	$refererUrl = env('FRONTEND_URL');
+	$headers = ['Referer' => $refererUrl];
 
 	$response = $this->withHeaders($headers)->post(route('password.forgot'), $userEmail);
 
@@ -34,7 +35,8 @@ test('User can successfully reset the password', function () {
 		'email' => $user->email,
 	];
 
-	$headers = ['Referer' => 'http://127.0.0.1:5173'];
+	$refererUrl = env('FRONTEND_URL');
+	$headers = ['Referer' => $refererUrl];
 
 	$response = $this->withHeaders($headers)->post(route('password.forgot'), $userEmail);
 
