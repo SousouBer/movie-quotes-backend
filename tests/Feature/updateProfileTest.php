@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 test('User can successfully update the username', function () {
@@ -97,4 +98,56 @@ test('User can not update the username if it already exists', function () {
 	]);
 
 	$this->assertNotEquals($authenticatedUser->username, $exampleUsername);
+});
+
+test('User successfully update the password', function () {
+	$user = User::factory()->create();
+
+	$newPassword = strtolower(Str::random(10));
+
+	$this->actingAs($user);
+
+	$newPasswordCredentials = [
+		'password'              => $newPassword,
+		'password_confirmation' => $newPassword,
+	];
+
+	$response = $this->post(route('profile.update', $newPasswordCredentials));
+
+	$response->assertStatus(201);
+
+	$response->assertSessionDoesntHaveErrors(
+		[
+			'password',
+			'password_confirmation',
+		]
+	);
+
+	$this->assertTrue(Hash::check($newPassword, $user->password));
+});
+
+test('User can not update the password if new password and password confirmation do not match', function () {
+	$user = User::factory()->create();
+
+	$newPassword = strtolower(Str::random(10));
+	$passwordConfirmation = strtolower(Str::random(10));
+
+	$this->actingAs($user);
+
+	$newPasswordCredentials = [
+		'password'              => $newPassword,
+		'password_confirmation' => $passwordConfirmation,
+	];
+
+	$response = $this->post(route('profile.update', $newPasswordCredentials));
+
+	$response->assertStatus(302);
+
+	$response->assertSessionHasErrors(
+		[
+			'password' => 'The password field confirmation does not match.',
+		]
+	);
+
+	$this->assertFalse(Hash::check($newPassword, $user->password));
 });
