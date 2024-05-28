@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 test('User can successfully update the username', function () {
@@ -150,4 +152,52 @@ test('User can not update the password if new password and password confirmation
 	);
 
 	$this->assertFalse(Hash::check($newPassword, $user->password));
+});
+
+test('User successfully update the profile picture', function () {
+	Storage::fake('avatars');
+
+	$avatar = UploadedFile::fake()->image('avatar.png');
+
+	$user = User::factory()->create();
+
+	$this->actingAs($user);
+
+	$response = $this->post(route('profile.update'), ['avatar' => $avatar]);
+
+	$response->assertStatus(201);
+
+	$response->assertSessionDoesntHaveErrors(
+		[
+			'avatar',
+		]
+	);
+
+	Storage::disk('public')->assertExists('avatars/' . $avatar->hashName());
+
+	$updatedAvatarUrl = '/storage/avatars/' . $avatar->hashName();
+
+	$this->assertEquals($updatedAvatarUrl, $user->avatar);
+});
+
+test('User can not update the profile picture if selected data is not an image', function () {
+	Storage::fake('avatars');
+
+	$documentFile = UploadedFile::fake()->create('document.txt');
+
+	$user = User::factory()->create();
+
+	$this->actingAs($user);
+
+	$response = $this->post(route('profile.update'), ['avatar' => $documentFile]);
+
+	$response->assertStatus(302);
+
+	$response->assertSessionHasErrors([
+		'avatar',
+	]);
+
+	$updatedDocumentUrl = '/storage/avatars/' . $documentFile->hashName();
+
+	$this->assertNotEquals($updatedDocumentUrl, $user->avatar);
 });
