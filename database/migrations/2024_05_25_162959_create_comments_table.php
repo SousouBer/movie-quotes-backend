@@ -14,7 +14,7 @@ return new class extends Migration {
 			$table->id();
 			$table->foreignId('user_id')->constrained()->cascadeOnDelete();
 			$table->foreignId('quote_id')->constrained()->cascadeOnDelete();
-			$table->json('comment');
+			$table->string('comment');
 			$table->timestamps();
 		});
 	}
