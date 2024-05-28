@@ -16,6 +16,8 @@ class Quote extends Model
 
 	public $translatable = ['quote'];
 
+	protected $guarded = ['id'];
+
 	public function user(): BelongsTo
 	{
 		return $this->belongsTo(User::class);

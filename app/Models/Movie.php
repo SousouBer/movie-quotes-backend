@@ -17,6 +17,8 @@ class Movie extends Model
 
 	public $translatable = ['title', 'description', 'director'];
 
+	protected $guarded = ['id'];
+
 	public function user(): BelongsTo
 	{
 		return $this->belongsTo(User::class);
