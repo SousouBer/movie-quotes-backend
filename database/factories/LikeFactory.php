@@ -9,15 +9,10 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class LikeFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
-    {
-        return [
-            //
-        ];
-    }
+	public function definition(): array
+	{
+		return [
+			'is_liked' => fake()->boolean(50),
+		];
+	}
 }

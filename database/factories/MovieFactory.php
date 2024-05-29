@@ -9,15 +9,24 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class MovieFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
-    {
-        return [
-            //
-        ];
-    }
+	public function definition(): array
+	{
+		return [
+			'title' => [
+				'en' => fake()->words(rand(2, 5), true),
+				'ka' => fake('ka_GE')->words(rand(2, 5), true),
+			],
+			'description' => [
+				'en' => fake()->realText(100),
+				'ka' => fake('ka_GE')->realText(100),
+			],
+			'director' => [
+				'en' => fake()->name(),
+				'ka' => fake('ka_GE')->name(),
+			],
+			'poster'   => fake()->imageUrl(),
+			'year'     => fake()->year,
+			'budget'   => number_format(fake()->numberBetween(1000, 1000000)),
+		];
+	}
 }

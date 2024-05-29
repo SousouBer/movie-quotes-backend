@@ -9,15 +9,14 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class QuoteFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
-    {
-        return [
-            //
-        ];
-    }
+	public function definition(): array
+	{
+		return [
+			'quote' => [
+				'en' => fake()->realtext(50),
+				'ka' => fake('ka_GE')->realtext(50),
+			],
+			'picture'   => fake()->imageUrl(),
+		];
+	}
 }
