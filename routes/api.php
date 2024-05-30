@@ -38,3 +38,5 @@ Route::delete('/movies/{movie}', [MovieController::class, 'destroy'])->name('mov
 Route::get('/quotes', [QuoteController::class, 'index'])->name('quotes.index');
 Route::get('/quotes/{quote}', [QuoteController::class, 'show'])->name('quotes.show');
 Route::post('/quotes', [QuoteController::class, 'store'])->name('quotes.store');
+Route::patch('/quotes/{quote}', [QuoteController::class, 'update'])->name('quotes.update');
+Route::delete('/quotes/{quote}', [QuoteController::class, 'destroy'])->name('quotes.destroy');

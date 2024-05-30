@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuoteRequest;
+use App\Http\Requests\UpdateQuoteRequest;
 use App\Http\Resources\QuoteResource;
 use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
@@ -34,5 +35,20 @@ class QuoteController extends Controller
 		$quote->movie()->associate($quoteDetails['movie_id']);
 
 		return response()->json(['message' => 'Quote added successfully'], 201);
+	}
+
+	public function update(UpdateQuoteRequest $request, Quote $quote): JsonResponse
+	{
+		$updatedQuoteDetails = $request->validated();
+
+		if ($request->hasFile('picture')) {
+			$quote->clearMediaCollection('pictures');
+
+			$quote->addMediaFromRequest('picture')->toMediaCollection('pictures');
+		}
+
+		$quote->update($updatedQuoteDetails);
+
+		return response()->json(['message' => 'Movie updated successfully'], 201);
 	}
 }
