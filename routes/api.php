@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\MovieController;
 
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('auth.google_callback');
 Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect'])->name('auth.google_redirect');
@@ -26,3 +27,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 Route::get('/email-verify/{id}/{hash}', [EmailController::class, 'verifyEmail'])->middleware(['signed'])->name('verification.verify');
 
 Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth:sanctum');
+
+Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
+Route::get('/movies/{movie}', [MovieController::class, 'show'])->name('movies.show');
