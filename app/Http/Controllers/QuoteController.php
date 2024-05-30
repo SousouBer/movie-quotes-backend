@@ -49,6 +49,13 @@ class QuoteController extends Controller
 
 		$quote->update($updatedQuoteDetails);
 
-		return response()->json(['message' => 'Movie updated successfully'], 201);
+		return response()->json(['message' => 'Quote updated successfully'], 201);
+	}
+
+	public function destroy(Quote $quote): JsonResponse
+	{
+		$quote->delete();
+
+		return response()->json(['message' => 'Quote deleted successfully'], 200);
 	}
 }
