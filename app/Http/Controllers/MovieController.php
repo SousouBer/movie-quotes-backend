@@ -22,11 +22,16 @@ class MovieController extends Controller
 
 	public function store(StoreMovieRequest $request): JsonResponse
 	{
-		$movie = Movie::create($request->validated());
+		$movieDetails = $request->validated();
+
+		$movie = Movie::create($movieDetails);
 
 		if ($request->hasFile('poster')) {
 			$movie->addMediaFromRequest('poster')->toMediaCollection('posters');
 		}
+
+		$genreIds = $movieDetails['genres'];
+		$movie->genres()->attach($genreIds);
 
 		return response()->json(['message' => 'Movie added successfully'], 201);
 	}

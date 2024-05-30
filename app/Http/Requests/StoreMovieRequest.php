@@ -21,6 +21,8 @@ class StoreMovieRequest extends FormRequest
 			'poster'             => 'required|image|mimes:jpg,jpeg,png,gif',
 			'year'               => 'required|string',
 			'budget'             => 'required|string',
+			'genres'             => 'required|array',
+			'genres.*'           => 'integer|exists:genres,id',
 		];
 	}
 
