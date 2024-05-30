@@ -7,7 +7,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleAuthController;
-use App\Http\Controllers\MovieController;
 use App\Http\Controllers\QuoteController;
 
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('auth.google_callback');
@@ -29,14 +28,18 @@ Route::get('/email-verify/{id}/{hash}', [EmailController::class, 'verifyEmail'])
 
 Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth:sanctum');
 
-Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
-Route::get('/movies/{movie}', [MovieController::class, 'show'])->name('movies.show');
-Route::post('/movies', [MovieController::class, 'store'])->name('movies.store');
-Route::patch('/movies/{movie}', [MovieController::class, 'update'])->name('movies.update');
-Route::delete('/movies/{movie}', [MovieController::class, 'destroy'])->name('movies.destroy');
+Route::controller(QuoteController::class)->prefix('movies')->group(function () {
+	Route::get('/', 'index')->name('movies.index');
+	Route::get('/{movie}', 'show')->name('movies.show');
+	Route::post('/', 'store')->name('movies.store');
+	Route::patch('/{movie}', 'update')->name('movies.update');
+	Route::delete('/{movie}', 'destroy')->name('movies.destroy');
+});
 
-Route::get('/quotes', [QuoteController::class, 'index'])->name('quotes.index');
-Route::get('/quotes/{quote}', [QuoteController::class, 'show'])->name('quotes.show');
-Route::post('/quotes', [QuoteController::class, 'store'])->name('quotes.store');
-Route::patch('/quotes/{quote}', [QuoteController::class, 'update'])->name('quotes.update');
-Route::delete('/quotes/{quote}', [QuoteController::class, 'destroy'])->name('quotes.destroy');
+Route::controller(QuoteController::class)->prefix('quotes')->group(function () {
+	Route::get('/', 'index')->name('quotes.index');
+	Route::get('/{quote}', 'show')->name('quotes.show');
+	Route::post('/', 'store')->name('quotes.store');
+	Route::patch('/{quote}', 'update')->name('quotes.update');
+	Route::delete('/{quote}', 'destroy')->name('quotes.destroy');
+});
