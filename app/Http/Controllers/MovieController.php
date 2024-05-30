@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMovieRequest;
+use App\Http\Requests\UpdateMovieRequest;
 use App\Http\Resources\MovieResource;
 use App\Models\Movie;
 use Illuminate\Http\JsonResponse;
@@ -34,5 +35,14 @@ class MovieController extends Controller
 		$movie->genres()->attach($genreIds);
 
 		return response()->json(['message' => 'Movie added successfully'], 201);
+	}
+
+	public function update(UpdateMovieRequest $request, Movie $movie): JsonResponse
+	{
+		$updatedMovieDetails = $request->validated();
+
+		$movie->update($updatedMovieDetails);
+
+		return response()->json(['message' => 'Movie updated successfully'], 201);
 	}
 }
