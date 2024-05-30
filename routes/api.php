@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\QuoteController;
 
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('auth.google_callback');
 Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect'])->name('auth.google_redirect');
@@ -33,3 +34,7 @@ Route::get('/movies/{movie}', [MovieController::class, 'show'])->name('movies.sh
 Route::post('/movies', [MovieController::class, 'store'])->name('movies.store');
 Route::patch('/movies/{movie}', [MovieController::class, 'update'])->name('movies.update');
 Route::delete('/movies/{movie}', [MovieController::class, 'destroy'])->name('movies.destroy');
+
+Route::get('/quotes', [QuoteController::class, 'index'])->name('quotes.index');
+Route::get('/quotes/{quote}', [QuoteController::class, 'show'])->name('quotes.show');
+Route::post('/quotes', [QuoteController::class, 'store'])->name('quotes.store');
