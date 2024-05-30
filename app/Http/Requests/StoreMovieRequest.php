@@ -11,6 +11,7 @@ class StoreMovieRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
+			'user_id'            => 'required|exists:users,id',
 			'title.en'           => ['required', new EnglishLetters],
 			'title.ka'           => ['required', new GeorgianLetters],
 			'description.en'     => ['required',  new EnglishLetters],
@@ -21,5 +22,14 @@ class StoreMovieRequest extends FormRequest
 			'year'               => 'required|string',
 			'budget'             => 'required|string',
 		];
+	}
+
+	protected function prepareForValidation(): void
+	{
+		$this->merge(
+			[
+				'user_id'            => auth()->user()->id,
+			]
+		);
 	}
 }

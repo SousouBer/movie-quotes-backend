@@ -12,7 +12,7 @@ class MovieResource extends JsonResource
 		return [
 			'id'           => $this->id,
 			'title'        => $this->title,
-			'poster'       => $this->poster,
+			'poster'       => $this->getFirstMediaUrl('posters'),
 			'quotes_count' => $this->quotes()->count(),
 			'year'         => $this->year,
 			$this->mergeWhen($request->route()->getName() === 'movies.show', [

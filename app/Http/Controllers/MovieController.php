@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMovieRequest;
 use App\Http\Resources\MovieResource;
 use App\Models\Movie;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class MovieController extends Controller
@@ -18,8 +20,14 @@ class MovieController extends Controller
 		return MovieResource::make($movie);
 	}
 
-	public function store($movie): MovieResource
+	public function store(StoreMovieRequest $request): JsonResponse
 	{
-		return MovieResource::make($movie);
+		$movie = Movie::create($request->validated());
+
+		if ($request->hasFile('poster')) {
+			$movie->addMediaFromRequest('poster')->toMediaCollection('posters');
+		}
+
+		return response()->json(['message' => 'Movie added successfully'], 201);
 	}
 }
