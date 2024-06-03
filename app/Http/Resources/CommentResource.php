@@ -11,7 +11,7 @@ class CommentResource extends JsonResource
 	{
 		return [
 			'id'      => $this->id,
-			'author'  => $this->author,
+			'author'  => UserResource::make($this->user),
 			'comment' => $this->comment,
 		];
 	}

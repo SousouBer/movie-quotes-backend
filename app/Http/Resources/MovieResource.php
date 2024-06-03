@@ -9,10 +9,16 @@ class MovieResource extends JsonResource
 {
 	public function toArray(Request $request): array
 	{
+		$posterUrl = $this->poster;
+
+		if (str_starts_with($this->poster, '/tmp')) {
+			$posterUrl = $this->getFirstMediaUrl('posters');
+		}
+
 		return [
 			'id'           => $this->id,
 			'title'        => $this->title,
-			'poster'       => $this->getFirstMediaUrl('posters'),
+			'poster'       => $posterUrl,
 			'quotes_count' => $this->quotes()->count(),
 			'year'         => $this->year,
 			$this->mergeWhen($request->route()->getName() === 'movies.show', [

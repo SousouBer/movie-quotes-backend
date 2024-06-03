@@ -13,7 +13,9 @@ class MovieController extends Controller
 {
 	public function index(): AnonymousResourceCollection
 	{
-		return MovieResource::collection(Movie::all());
+		$movies = Movie::orderBy('created_at', 'desc')->get();
+
+		return MovieResource::collection($movies);
 	}
 
 	public function show(Movie $movie): MovieResource
