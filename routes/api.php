@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\QuoteController;
 
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('auth.google_callback');
 Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect'])->name('auth.google_redirect');
@@ -26,3 +27,19 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 Route::get('/email-verify/{id}/{hash}', [EmailController::class, 'verifyEmail'])->middleware(['signed'])->name('verification.verify');
 
 Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth:sanctum');
+
+Route::controller(QuoteController::class)->prefix('movies')->group(function () {
+	Route::get('/', 'index')->name('movies.index');
+	Route::get('/{movie}', 'show')->name('movies.show');
+	Route::post('/', 'store')->name('movies.store');
+	Route::patch('/{movie}', 'update')->name('movies.update');
+	Route::delete('/{movie}', 'destroy')->name('movies.destroy');
+});
+
+Route::controller(QuoteController::class)->prefix('quotes')->group(function () {
+	Route::get('/', 'index')->name('quotes.index');
+	Route::get('/{quote}', 'show')->name('quotes.show');
+	Route::post('/', 'store')->name('quotes.store');
+	Route::patch('/{quote}', 'update')->name('quotes.update');
+	Route::delete('/{quote}', 'destroy')->name('quotes.destroy');
+});
