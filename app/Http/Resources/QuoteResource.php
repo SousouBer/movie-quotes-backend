@@ -9,10 +9,16 @@ class QuoteResource extends JsonResource
 {
 	public function toArray(Request $request): array
 	{
+		$pictureUrl = $this->picture;
+
+		if (str_starts_with($this->picture, '/tmp')) {
+			$pictureUrl = $this->getFirstMediaUrl('pictures');
+		}
+
 		return [
 			'id'                            => $this->id,
 			'quote'                         => $this->quote,
-			'picture'                       => $this->picture,
+			'picture'                       => $pictureUrl,
 			'likes_count'                   => $this->likes()->count(),
 			'comments_count'                => $this->comments()->count(),
 			'movie'                         => [

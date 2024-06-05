@@ -13,7 +13,9 @@ class QuoteController extends Controller
 {
 	public function index(): AnonymousResourceCollection
 	{
-		return QuoteResource::collection(Quote::all());
+		$quotes = Quote::orderBy('created_at', 'desc')->get();
+
+		return QuoteResource::collection($quotes);
 	}
 
 	public function show(Quote $quote): QuoteResource
