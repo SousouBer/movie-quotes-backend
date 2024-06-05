@@ -46,5 +46,6 @@ Route::controller(QuoteController::class)->prefix('quotes')->group(function () {
 	Route::get('/{quote}', 'show')->name('quotes.show');
 	Route::post('/', 'store')->name('quotes.store');
 	Route::patch('/{quote}', 'update')->name('quotes.update');
+	Route::get('/edit/{quote}', 'edit')->name('quotes.edit');
 	Route::delete('/{quote}', 'destroy')->name('quotes.destroy');
 });

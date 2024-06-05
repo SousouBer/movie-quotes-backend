@@ -39,6 +39,12 @@ class QuoteController extends Controller
 		return response()->json(['message' => 'Quote added successfully'], 201);
 	}
 
+	public function edit(Quote $quote): QuoteResource
+	{
+		return QuoteResource::make($quote);
+	}
+
+
 	public function update(UpdateQuoteRequest $request, Quote $quote): JsonResponse
 	{
 		$updatedQuoteDetails = $request->validated();
