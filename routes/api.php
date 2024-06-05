@@ -34,6 +34,7 @@ Route::controller(MovieController::class)->prefix('movies')->group(function () {
 	Route::get('/', 'index')->name('movies.index');
 	Route::get('/{movie}', 'show')->name('movies.show');
 	Route::post('/', 'store')->name('movies.store');
+	Route::get('/edit/{movie}', 'edit')->name('movies.edit');
 	Route::patch('/{movie}', 'update')->name('movies.update');
 	Route::delete('/{movie}', 'destroy')->name('movies.destroy');
 });

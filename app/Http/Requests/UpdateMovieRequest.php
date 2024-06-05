@@ -17,7 +17,7 @@ class UpdateMovieRequest extends FormRequest
 			'description.ka'     => ['required', new GeorgianLetters],
 			'director.en'        => ['required',  new EnglishLetters],
 			'director.ka'        => ['required', new GeorgianLetters],
-			'poster'             => 'required|image|mimes:jpg,jpeg,png,gif',
+			'poster'             => 'sometimes|image|mimes:jpg,jpeg,png,gif',
 			'year'               => 'required|string',
 			'budget'             => 'required|string',
 			'genres'             => 'required|array',

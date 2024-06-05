@@ -39,11 +39,24 @@ class MovieController extends Controller
 		return response()->json(['message' => 'Movie added successfully'], 201);
 	}
 
+	public function edit(Movie $movie): MovieResource
+	{
+		return MovieResource::make($movie);
+	}
+
 	public function update(UpdateMovieRequest $request, Movie $movie): JsonResponse
 	{
 		$updatedMovieDetails = $request->validated();
 
 		$movie->update($updatedMovieDetails);
+
+		$movie->genres()->sync($updatedMovieDetails['genres']);
+
+		if ($request->hasFile('poster')) {
+			$movie->clearMediaCollection('posters');
+
+			$movie->addMediaFromRequest('poster')->toMediaCollection('posters');
+		}
 
 		return response()->json(['message' => 'Movie updated successfully'], 201);
 	}
