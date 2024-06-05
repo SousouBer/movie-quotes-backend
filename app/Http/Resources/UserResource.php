@@ -21,6 +21,7 @@ class UserResource extends JsonResource
 		}
 
 		return [
+			'id'                => $this->id,
 			'avatar'            => $avatarUrl,
 			'username'          => $this->username,
 			$this->mergeWhen($request->route()->getName() === 'user.show', [

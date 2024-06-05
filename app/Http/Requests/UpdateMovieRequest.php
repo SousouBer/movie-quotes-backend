@@ -17,11 +17,26 @@ class UpdateMovieRequest extends FormRequest
 			'description.ka'     => ['required', new GeorgianLetters],
 			'director.en'        => ['required',  new EnglishLetters],
 			'director.ka'        => ['required', new GeorgianLetters],
-			'poster'             => 'required|image|mimes:jpg,jpeg,png,gif',
+			'poster'             => 'sometimes|image|mimes:jpg,jpeg,png,gif',
 			'year'               => 'required|string',
 			'budget'             => 'required|string',
 			'genres'             => 'required|array',
 			'genres.*'           => 'integer|exists:genres,id',
+		];
+	}
+
+	public function attributes(): array
+	{
+		return [
+			'title.en'           => __('movies.movie_title_english'),
+			'title.ka'           => __('movies.movie_title_georgian'),
+			'description.en'     => __('movies.movie_description_english'),
+			'description.ka'     => __('movies.movie_description_georgian'),
+			'director.en'        => __('movies.movie_director_english'),
+			'director.ka'        => __('movies.movie_director_georgian'),
+			'poster'             => __('movies.poster'),
+			'year'               => __('movies.year'),
+			'genres'             => __('movies.genres'),
 		];
 	}
 }
