@@ -24,4 +24,19 @@ class UpdateMovieRequest extends FormRequest
 			'genres.*'           => 'integer|exists:genres,id',
 		];
 	}
+
+	public function attributes(): array
+	{
+		return [
+			'title.en'           => __('movies.movie_title_english'),
+			'title.ka'           => __('movies.movie_title_georgian'),
+			'description.en'     => __('movies.movie_description_english'),
+			'description.ka'     => __('movies.movie_description_georgian'),
+			'director.en'        => __('movies.movie_director_english'),
+			'director.ka'        => __('movies.movie_director_georgian'),
+			'poster'             => __('movies.poster'),
+			'year'               => __('movies.year'),
+			'genres'             => __('movies.genres'),
+		];
+	}
 }
