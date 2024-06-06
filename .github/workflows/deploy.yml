@@ -14,7 +14,7 @@ jobs:
       - name: copy env file
         run: cp .env.example .env
       - name: Install composer Dependencies
-        run: composer update -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Setup Project
         run: |
           php artisan config:clear
