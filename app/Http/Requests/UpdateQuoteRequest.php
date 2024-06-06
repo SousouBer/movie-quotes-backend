@@ -13,7 +13,7 @@ class UpdateQuoteRequest extends FormRequest
 		return [
 			'quote.en'             => ['required', new EnglishLetters],
 			'quote.ka'             => ['required', new GeorgianLetters],
-			'picture'              => 'required|image|mimes:jpg,jpeg,png,gif',
+			'picture'              => 'sometimes|image|mimes:jpg,jpeg,png,gif',
 		];
 	}
 }

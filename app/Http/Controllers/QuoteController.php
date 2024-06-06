@@ -13,7 +13,9 @@ class QuoteController extends Controller
 {
 	public function index(): AnonymousResourceCollection
 	{
-		return QuoteResource::collection(Quote::all());
+		$quotes = Quote::orderBy('created_at', 'desc')->get();
+
+		return QuoteResource::collection($quotes);
 	}
 
 	public function show(Quote $quote): QuoteResource
@@ -36,6 +38,12 @@ class QuoteController extends Controller
 
 		return response()->json(['message' => 'Quote added successfully'], 201);
 	}
+
+	public function edit(Quote $quote): QuoteResource
+	{
+		return QuoteResource::make($quote);
+	}
+
 
 	public function update(UpdateQuoteRequest $request, Quote $quote): JsonResponse
 	{
