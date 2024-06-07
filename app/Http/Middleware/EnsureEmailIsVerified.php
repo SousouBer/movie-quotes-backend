@@ -18,7 +18,7 @@ class EnsureEmailIsVerified
 		$user = User::where($field, $credential)->first();
 
 		if ($user && !$user->hasVerifiedEmail()) {
-			return response()->json(['username_or_email' => 'Your email address is not verified'], 409);
+			return response()->json(['username_or_email' => __('validation.unverified_email')], 409);
 		}
 
 		return $next($request);
