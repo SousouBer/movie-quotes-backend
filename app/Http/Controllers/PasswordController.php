@@ -23,8 +23,12 @@ class PasswordController extends Controller
 			return response()->json(['email' => 'User with provided email does not exist'], 404);
 		}
 
+		if (!$user->hasVerifiedEmail()) {
+			return response()->json(['email' => __('validation.unverified_email')], 404);
+		}
+
 		if ($user->google_id) {
-			return response()->json(['email' => 'Use your Google account to log in instead.'], 404);
+			return response()->json(['email' => __('validation.login_with_google')], 404);
 		}
 
 		Password::sendResetLink($email);
