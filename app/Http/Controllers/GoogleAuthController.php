@@ -22,7 +22,7 @@ class GoogleAuthController extends Controller
 
 		$accountExists = User::where('email', $googleUser->email)->first();
 
-		if ($accountExists) {
+		if ($accountExists && !$accountExists->google_id) {
 			return response()->json(['message' => 'User already has an account with this email'], 403);
 		}
 

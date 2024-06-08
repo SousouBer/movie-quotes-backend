@@ -23,7 +23,7 @@ class AuthController extends Controller
 
 		$verificationUrl = EmailVerificationUrl::handle($user);
 
-		// $user->notify(new EmailVerificationNotification($verificationUrl));
+		$user->notify(new EmailVerificationNotification($verificationUrl));
 
 		return response()->json(['message' => 'User has been registered successfully'], 201);
 	}
