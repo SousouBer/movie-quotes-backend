@@ -19,7 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
 			'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
 		]);
 
-		// $middleware->append(SetLocale::class);
+		$middleware->append(SetLocale::class);
 	})
 	->withExceptions(function (Exceptions $exceptions) {
 	})->create();
