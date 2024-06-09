@@ -18,13 +18,13 @@ class MovieResource extends JsonResource
 		return [
 			'id'           => $this->id,
 			$this->mergeWhen($request->route()->getName() === 'movies.index', [
-				'title'        => $this->title,
+				'title'                   => $this->title,
+				'director'                => $this->director,
 			]),
 			'poster'                  => $posterUrl,
 			'quotes_count'            => $this->quotes()->count(),
 			'year'                    => $this->year,
 			'genres'                  => GenreResource::collection($this->genres),
-			'director'                => $this->director,
 			$this->mergeWhen($request->route()->getName() === 'movies.show', [
 				'title'                   => $this->title,
 				'quotes'                  => QuoteResource::collection($this->quotes),
