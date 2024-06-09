@@ -18,8 +18,14 @@ class QuoteResource extends JsonResource
 		return [
 			'id'                            => $this->id,
 			'picture'                       => $pictureUrl,
-			$this->mergeWhen($request->route()->getName() !== 'quotes.edit', [
+			$this->mergeWhen($request->route()->getName() !== 'quotes.edit' && $request->route()->getName() !== 'quotes.show', [
 				'quote'                         => $this->quote,
+			]),
+			$this->mergeWhen($request->route()->getName() === 'movies.show', [
+				'likes_count'                   => $this->likes()->count(),
+				'comments_count'                => $this->comments()->count(),
+			]),
+			$this->mergeWhen($request->route()->getName() === 'quotes.index' || $request->route()->getName() === 'quotes.show', [
 				'likes_count'                   => $this->likes()->count(),
 				'comments_count'                => $this->comments()->count(),
 				'movie'                         => [
@@ -30,7 +36,7 @@ class QuoteResource extends JsonResource
 				'quote_author'                  => UserResource::make($this->user),
 				'comments'                      => CommentResource::collection($this->comments),
 			]),
-			$this->mergeWhen($request->route()->getName() === 'quotes.edit', [
+			$this->mergeWhen($request->route()->getName() === 'quotes.edit' || $request->route()->getName() === 'quotes.show', [
 				'quote'                    => [
 					'en' => $this->getTranslation('quote', 'en'),
 					'ka' => $this->getTranslation('quote', 'ka'),
