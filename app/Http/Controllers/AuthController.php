@@ -39,7 +39,7 @@ class AuthController extends Controller
 		$user = User::where($field, $credentials['username_or_email'])->first();
 
 		if ($user && $user->google_id !== null) {
-			return response()->json(['username_or_email' => 'Provided username or email has a Google account.'], 404);
+			return response()->json(['username_or_email' => __('validation.has_google_account')], 404);
 		}
 
 		if (Auth::attempt([$field => $credentials['username_or_email'], 'password' => $credentials['password']], $remember)) {
@@ -47,7 +47,7 @@ class AuthController extends Controller
 
 			return response()->json(['message' => 'Your have successfully logged in.'], 200);
 		}
-		return response()->json(['username_or_email' => 'Provided credentials are not valid. Please, try again.'], 404);
+		return response()->json(['username_or_email' => __('validation.invalid_credentials')], 404);
 	}
 
 	public function logout(Request $request): JsonResponse

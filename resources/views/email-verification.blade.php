@@ -7,9 +7,9 @@
         <div style="margin: 2rem 0; text-align: start;">
             <span style="color: #fff;">Hi, {{ $username }}!</span>
             <p style="color: #fff; margin: 2rem 0">Thanks for joining Movie quotes! We really appreciate it. Please click the button below to verify your account.</p>
-            <a style="background: #E31221; padding: 0.5rem 1.5rem; border-radius: 4px; margin-top: 1rem; color: #fff; text-decoration: none;" href="{{config('app.frontend_url') . '/login' . '&email=' .  $email . '&verifyLink=' . $verificationUrl }}">Verify account</a>
+            <a style="background: #E31221; padding: 0.5rem 1.5rem; border-radius: 4px; margin-top: 1rem; color: #fff; text-decoration: none;" href="{{config('app.frontend_url') . '/landing?' . 'email=' .  $email . '&verifyLink=' . $verificationUrl }}">Verify account</a>
             <p style="color: #fff; margin: 2rem 0;">If clicking doesn't work, you can try copying and pasting it to your browser:</p>
-            <a style="color: #DDCCAA; text-decoration: none;" href="{{config('app.frontend_url') . '/login' . '&email=' .  $email . '&verifyLink=' . $verificationUrl }}">{{config('app.frontend_url') . '/login' . '&email=' .  $email . '&verifyLink=' . $verificationUrl }}</a>
+            <a style="color: #DDCCAA; text-decoration: none;" href="{{config('app.frontend_url') . '/landing?' . 'email=' .  $email . '&verifyLink=' . $verificationUrl }}">{{config('app.frontend_url') . '/landing?' . 'email=' .  $email . '&verifyLink=' . $verificationUrl }}</a>
             <p style="color: #fff; margin: 1rem 0">If you have any problems, please contact us: support@moviequotes.ge</p>
             <span style="color: #fff";>MovieQuotes Crew</span>
          </div>
