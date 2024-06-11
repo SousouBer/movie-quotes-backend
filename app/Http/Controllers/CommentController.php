@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCommentRequest;
+use App\Http\Resources\QuoteResource;
 use App\Models\Comment;
-use Illuminate\Http\JsonResponse;
+use App\Models\Quote;
 
 class CommentController extends Controller
 {
-	public function store(StoreCommentRequest $request): JsonResponse
+	public function store(StoreCommentRequest $request): QuoteResource
 	{
 		Comment::create($request->validated());
 
-		return response()->json((['message' => 'Comment added successfully']), 201);
+		$updatedQuote = Quote::findOrFail($request->input('quote_id'));
+
+		return QuoteResource::make($updatedQuote);
 	}
 }

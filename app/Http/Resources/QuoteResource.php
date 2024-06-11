@@ -25,7 +25,7 @@ class QuoteResource extends JsonResource
 				'likes_count'                   => $this->likes()->count(),
 				'comments_count'                => $this->comments()->count(),
 			]),
-			$this->mergeWhen($request->route()->getName() === 'quotes.index' || $request->route()->getName() === 'quotes.show', [
+			$this->mergeWhen($request->route()->getName() === 'quotes.index' || $request->route()->getName() === 'quotes.show' || $request->route()->getName() === 'comments.store', [
 				'likes_count'                   => $this->likes()->count(),
 				'comments_count'                => $this->comments()->count(),
 				'movie'                         => [
