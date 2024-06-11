@@ -50,4 +50,5 @@ Route::controller(QuoteController::class)->prefix('quotes')->group(function () {
 	Route::patch('/{quote}', 'update')->name('quotes.update');
 	Route::get('/edit/{quote}', 'edit')->name('quotes.edit');
 	Route::delete('/{quote}', 'destroy')->name('quotes.destroy');
+	Route::post('/like', 'like')->name('quotes.like');
 });
