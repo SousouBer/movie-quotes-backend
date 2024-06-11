@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\PasswordController;
@@ -40,6 +41,7 @@ Route::controller(MovieController::class)->prefix('movies')->group(function () {
 });
 
 Route::get('/genres', [GenreController::class, 'index'])->name('genres.index');
+Route::post('/comment', [CommentController::class, 'store'])->name('comments.store');
 
 Route::controller(QuoteController::class)->prefix('quotes')->group(function () {
 	Route::get('/', 'index')->name('quotes.index');
