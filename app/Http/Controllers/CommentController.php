@@ -26,7 +26,9 @@ class CommentController extends Controller
 			'comment_received' => true,
 		]);
 
-		userNotification::dispatch(NotificationResource::make($newNotification));
+		if (auth()->user()->id !== $updatedQuote->user->id) {
+			userNotification::dispatch(NotificationResource::make($newNotification));
+		}
 
 		return QuoteResource::make($updatedQuote);
 	}
