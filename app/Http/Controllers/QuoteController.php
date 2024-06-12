@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreLikeRequest;
 use App\Http\Requests\StoreQuoteRequest;
 use App\Http\Requests\UpdateQuoteRequest;
 use App\Http\Resources\QuoteResource;
+use App\Models\Like;
 use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -44,7 +46,6 @@ class QuoteController extends Controller
 		return QuoteResource::make($quote);
 	}
 
-
 	public function update(UpdateQuoteRequest $request, Quote $quote): JsonResponse
 	{
 		$updatedQuoteDetails = $request->validated();
@@ -58,6 +59,24 @@ class QuoteController extends Controller
 		$quote->update($updatedQuoteDetails);
 
 		return response()->json(['message' => 'Quote updated successfully'], 201);
+	}
+
+	public function like(StoreLikeRequest $request): QuoteResource
+	{
+		$userId = $request->validated()['user_id'];
+		$quoteId = $request->validated()['quote_id'];
+
+		$existingLike = Like::where([['user_id', $userId], ['quote_id', $quoteId]])->first();
+
+		if ($existingLike) {
+			$existingLike->delete();
+		} else {
+			$like = Like::create($request->validated());
+
+			$like->save();
+		}
+
+		return QuoteResource::make(Quote::findOrFail($request->input('quote_id')));
 	}
 
 	public function destroy(Quote $quote): JsonResponse
