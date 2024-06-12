@@ -18,8 +18,8 @@ class CommentController extends Controller
 
 		// I will also change this data, and create table for notifications in the next branch.
 		$notification = [
-			'comment_author_id' => $request->validated()['user_id'],
-			'quote_author_id'   => $updatedQuote->user->id,
+			'receiver_id'       => $updatedQuote->user->id,
+			'sender_id'         => $request->validated()['user_id'],
 			'message'           => 'Your quote has been commented!',
 		];
 
