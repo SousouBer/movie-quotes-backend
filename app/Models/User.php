@@ -53,8 +53,13 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 		return $this->hasMany(Comment::class);
 	}
 
-	public function notifications(): HasMany
+	public function receivedNotifications(): HasMany
 	{
 		return $this->hasMany(Notification::class, 'receiver_id');
+	}
+
+	public function sentNotifications(): HasMany
+	{
+		return $this->hasMany(Notification::class, 'sender_id');
 	}
 }
