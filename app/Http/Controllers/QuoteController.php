@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\userNotification;
 use App\Http\Requests\StoreLikeRequest;
 use App\Http\Requests\StoreQuoteRequest;
 use App\Http\Requests\UpdateQuoteRequest;
+use App\Http\Resources\NotificationResource;
 use App\Http\Resources\QuoteResource;
 use App\Models\Like;
+use App\Models\Notification;
 use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -74,6 +77,20 @@ class QuoteController extends Controller
 			$like = Like::create($request->validated());
 
 			$like->save();
+
+			$quoteAuthorId = Quote::findOrFail($quoteId)->user->id;
+
+			if (auth()->user()->id !== $quoteAuthorId) {
+				$newNotification = Notification::create([
+					'quote_id'         => $quoteId,
+					'receiver_id'      => $quoteAuthorId,
+					'sender_id'        => $request->validated()['user_id'],
+					'is_read'          => false,
+					'like_received'    => true,
+				]);
+
+				userNotification::dispatch(NotificationResource::make($newNotification));
+			}
 		}
 
 		return QuoteResource::make(Quote::findOrFail($request->input('quote_id')));
