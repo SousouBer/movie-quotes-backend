@@ -54,4 +54,8 @@ Route::controller(QuoteController::class)->prefix('quotes')->group(function () {
 	Route::post('/like', 'like')->name('quotes.like');
 });
 
-Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+Route::controller(NotificationController::class)->group(function () {
+	Route::get('/notifications', 'index')->name('notifications.index');
+	Route::get('/notifications/{notification}/mark-as-read', 'markRead')->name('notifications.markRead');
+	Route::get('/notifications/mark-all-as-read', 'markAllAsRead')->name('notifications.markAllAsRead');
+});
