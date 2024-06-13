@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -25,10 +24,11 @@ class NotificationResource extends JsonResource
 			'id'               => $this->id,
 			'quote_id'         => $this->quote_id,
 			'author_avatar'    => $authorAvatarUrl,
+			'author_username'  => $this->sender->username,
 			'like_received'    => $this->whenNotNull($this->like_received !== null ? __('general.like_created') : null),
 			'comment_received' => $this->when($this->comment_received !== null, __('general.comment_created')),
-			'is_read'          => $this->whenNotNull($this->is_read),
-			'time_created'     => $this->created_at->diffInMinutes(Carbon::now()),
+			'is_read'          => $this->when($this->is_read, $this->is_read !== 0),
+			'time_created'     => $this->created_at,
 		];
 	}
 }

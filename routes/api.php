@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\QuoteController;
 
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('auth.google_callback');
@@ -52,3 +53,5 @@ Route::controller(QuoteController::class)->prefix('quotes')->group(function () {
 	Route::delete('/{quote}', 'destroy')->name('quotes.destroy');
 	Route::post('/like', 'like')->name('quotes.like');
 });
+
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
