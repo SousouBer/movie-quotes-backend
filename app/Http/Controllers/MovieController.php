@@ -8,12 +8,15 @@ use App\Http\Resources\MovieResource;
 use App\Models\Movie;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
 
 class MovieController extends Controller
 {
 	public function index(): AnonymousResourceCollection
 	{
-		$movies = Movie::orderBy('created_at', 'desc')->get();
+		$user = Auth::user();
+
+		$movies = $user->movies()->orderBy('created_at', 'desc')->get();
 
 		return MovieResource::collection($movies);
 	}
