@@ -18,7 +18,7 @@ class QuoteController extends Controller
 {
 	public function index(): AnonymousResourceCollection
 	{
-		$quotes = Quote::orderBy('created_at', 'desc')->get();
+		$quotes = Quote::orderBy('created_at', 'desc')->paginate(5);
 
 		return QuoteResource::collection($quotes);
 	}
