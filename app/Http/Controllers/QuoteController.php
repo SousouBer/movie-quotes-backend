@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\userNotification;
+use App\Http\Requests\QuotesRequest;
 use App\Http\Requests\StoreLikeRequest;
 use App\Http\Requests\StoreQuoteRequest;
 use App\Http\Requests\UpdateQuoteRequest;
@@ -16,11 +17,19 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class QuoteController extends Controller
 {
-	public function index(): AnonymousResourceCollection
+	public function index(QuotesRequest $request): AnonymousResourceCollection
 	{
-		$quotes = Quote::orderBy('created_at', 'desc')->paginate(5);
+		$query = $request->validated();
 
-		return QuoteResource::collection($quotes);
+		$searchValue = $query['search'] ?? null;
+
+		$quotes = Quote::query();
+
+		if ($searchValue) {
+			$quotes->search($searchValue);
+		}
+
+		return QuoteResource::collection($quotes->orderByDesc('created_at')->paginate(3));
 	}
 
 	public function show(Quote $quote): QuoteResource
