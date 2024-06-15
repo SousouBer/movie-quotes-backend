@@ -52,21 +52,15 @@ class Quote extends Model implements HasMedia
 		if (Str::startsWith($search, '#')) {
 			$searchQuote = Str::substr($search, 1);
 
-			if ($locale === 'en') {
-				return $query->where('quote->en', 'like', '%' . $searchQuote . '%');
-			} elseif ($locale === 'ka') {
-				return $query->where('quote->ka', 'like', '%' . $searchQuote . '%');
-			}
+			return $query->where("quote->{$locale}", 'like', "%{$searchQuote}%");
 		} elseif (Str::startsWith($search, '@')) {
 			$searchMovie = Str::substr($search, 1);
 
 			return $query->whereHas('movie', function (Builder $query) use ($searchMovie, $locale) {
-				if ($locale === 'en') {
-					$query->where('title->en', 'like', '%' . $searchMovie . '%');
-				} elseif ($locale === 'ka') {
-					$query->where('title->ka', 'like', '%' . $searchMovie . '%');
-				}
+				$query->where("title->{$locale}", 'like', "%{$searchMovie}%");
 			});
 		}
+
+		return $query;
 	}
 }
