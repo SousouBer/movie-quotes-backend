@@ -4,6 +4,7 @@ use App\Models\Movie;
 use App\Models\Quote;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 
 test('New quote is successfully added', function () {
 	$user = User::factory()->create();
@@ -129,4 +130,34 @@ test('Quote can be successfully deleted', function () {
 	);
 
 	$this->assertDatabaseMissing('quotes', ['id' => $quote->id]);
+});
+
+test('User can successfully comment on a quote', function () {
+	$user = User::factory()->create();
+	$quote = Quote::inRandomOrder()->firstOrFail();
+
+	$commentData = [
+		'quote_id' => $quote->id,
+		'comment'  => Str::random(rand(1, 10)),
+	];
+
+	$this->actingAs($user);
+
+	$response = $this->post(route('comments.store'), $commentData);
+
+	$response->assertStatus(200);
+
+	$response->assertSessionDoesntHaveErrors(
+		[
+			'user_id',
+			'quote_id',
+			'comment',
+		]
+	);
+
+	$this->assertDatabaseHas('comments', [
+		'user_id'  => $user->id,
+		'quote_id' => $quote->id,
+		'comment'  => $commentData['comment'],
+	]);
 });
