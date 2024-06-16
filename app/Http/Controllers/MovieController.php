@@ -6,17 +6,26 @@ use App\Http\Requests\StoreMovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
 use App\Http\Resources\MovieResource;
 use App\Models\Movie;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\App;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class MovieController extends Controller
 {
 	public function index(): AnonymousResourceCollection
 	{
-		$user = Auth::user();
+		$locale = App::getLocale();
 
-		$movies = $user->movies()->orderBy('created_at', 'desc')->get();
+		$movies = QueryBuilder::for(Movie::class)->where('user_id', auth()->user()->id)
+			->allowedFilters([
+				AllowedFilter::callback('search', function (Builder $query, string $value) use ($locale) {
+					$query->where("title->{$locale}", 'like', "%{$value}%");
+				}),
+			])
+			->latest()->paginate(10);
 
 		return MovieResource::collection($movies);
 	}
