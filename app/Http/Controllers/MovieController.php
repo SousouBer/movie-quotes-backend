@@ -12,6 +12,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\App;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Str;
 
 class MovieController extends Controller
 {
@@ -22,7 +23,9 @@ class MovieController extends Controller
 		$movies = QueryBuilder::for(Movie::class)->where('user_id', auth()->user()->id)
 			->allowedFilters([
 				AllowedFilter::callback('search', function (Builder $query, string $value) use ($locale) {
-					$query->where("title->{$locale}", 'like', "%{$value}%");
+					$lowercaseValue = Str::lower($value);
+
+					$query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(title, '$.\"{$locale}\"'))) like ?", ["%{$lowercaseValue}%"]);
 				}),
 			])
 			->latest()->paginate(10);

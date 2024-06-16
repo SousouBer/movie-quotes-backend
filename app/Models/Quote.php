@@ -51,13 +51,15 @@ class Quote extends Model implements HasMedia
 
 		if (Str::startsWith($search, '#')) {
 			$searchQuote = Str::substr($search, 1);
+			$searchQuoteLower = Str::lower($searchQuote);
 
-			return $query->where("quote->{$locale}", 'like', "%{$searchQuote}%");
+			return $query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(quote, '$.\"{$locale}\"'))) like ?", ["%{$searchQuoteLower}%"]);
 		} elseif (Str::startsWith($search, '@')) {
 			$searchMovie = Str::substr($search, 1);
+			$searchMovieLower = Str::lower($searchMovie);
 
-			return $query->whereHas('movie', function (Builder $query) use ($searchMovie, $locale) {
-				$query->where("title->{$locale}", 'like', "%{$searchMovie}%");
+			return $query->whereHas('movie', function (Builder $query) use ($searchMovieLower, $locale) {
+				$query->whereRaw("LOWER(JSON_UNQUOTE(JSON_EXTRACT(title, '$.\"{$locale}\"'))) like ?", ["%{$searchMovieLower}%"]);
 			});
 		}
 
