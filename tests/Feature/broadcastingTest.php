@@ -49,3 +49,41 @@ test('Comment broadcasting is successfully dispatched', function () {
 
 	$response->assertSessionDoesntHaveErrors();
 });
+
+test('Like broadcasting is successfully dispatched', function () {
+	Event::fake();
+
+	$user = User::factory()->create();
+	$quote = Quote::inRandomOrder()->firstOrFail();
+
+	$this->actingAs($user);
+
+	$response = $this->post(route('quotes.like'), ['quote_id' => $quote->id]);
+
+	$response->assertStatus(200);
+
+	$response->assertSessionDoesntHaveErrors(
+		[
+			'user_id',
+			'quote_id',
+			'is_liked',
+		]
+	);
+
+	$this->assertDatabaseHas('likes', [
+		'user_id'  => $user->id,
+		'quote_id' => $quote->id,
+		'is_liked' => true,
+	]);
+
+	Event::assertDispatched(userNotification::class, function ($e) use ($user, $quote) {
+		$notification = $e->notification;
+
+		return $notification->quote_id === $quote->id
+				&& $notification->receiver_id === $quote->user_id
+				&& $notification->sender_id === $user->id
+				&& $notification->like_received === true;
+	});
+
+	$response->assertSessionDoesntHaveErrors();
+});
