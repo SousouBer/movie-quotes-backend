@@ -186,3 +186,44 @@ test('User can successfully like a quote', function () {
 		'is_liked' => true,
 	]);
 });
+
+test('User can successfully unlike a quote', function () {
+	$user = User::factory()->create();
+	$quote = Quote::inRandomOrder()->firstOrFail();
+
+	$this->actingAs($user);
+
+	$response = $this->post(route('quotes.like'), ['quote_id' => $quote->id]);
+
+	$response->assertStatus(200);
+
+	$response->assertSessionDoesntHaveErrors(
+		[
+			'user_id',
+			'quote_id',
+			'is_liked',
+		]
+	);
+
+	$this->assertDatabaseHas('likes', [
+		'user_id'  => $user->id,
+		'quote_id' => $quote->id,
+		'is_liked' => true,
+	]);
+
+	// Unlike a quote here.
+	$response = $this->post(route('quotes.like'), ['quote_id' => $quote->id]);
+
+	$response->assertSessionDoesntHaveErrors(
+		[
+			'user_id',
+			'quote_id',
+			'is_liked',
+		]
+	);
+
+	$this->assertDatabaseMissing('likes', [
+		'user_id'  => $user->id,
+		'quote_id' => $quote->id,
+	]);
+});
