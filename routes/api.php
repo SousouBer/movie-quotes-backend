@@ -27,8 +27,8 @@ Route::middleware('guest')->group(function () {
 	Route::get('/email-verify/{id}/{hash}', [EmailController::class, 'verifyEmail'])->middleware(['signed'])->name('verification.verify');
 });
 
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 Route::middleware('auth:sanctum')->group(function () {
-	Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 	Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth:sanctum');
 
 	Route::controller(MovieController::class)->prefix('movies')->group(function () {
