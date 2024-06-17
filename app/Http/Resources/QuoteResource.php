@@ -37,7 +37,13 @@ class QuoteResource extends JsonResource
 				'quote_author'                  => UserResource::make($this->user),
 				'comments'                      => CommentResource::collection($this->comments),
 			]),
-			$this->mergeWhen($request->route()->getName() === 'quotes.edit' || $request->route()->getName() === 'quotes.show', [
+			$this->mergeWhen($request->route()->getName() === 'quotes.edit', [
+				'quote'                    => [
+					'en' => $this->getTranslation('quote', 'en'),
+					'ka' => $this->getTranslation('quote', 'ka'),
+				],
+			]),
+			$this->mergeWhen($request->route()->getName() === 'quotes.show', [
 				'quote'                    => [
 					'en' => '"' . $this->getTranslation('quote', 'en') . '"',
 					'ka' => '"' . $this->getTranslation('quote', 'ka') . '"',
