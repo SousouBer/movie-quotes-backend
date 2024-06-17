@@ -13,12 +13,18 @@ use App\Models\Notification;
 use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class QuoteController extends Controller
 {
 	public function index(): AnonymousResourceCollection
 	{
-		$quotes = Quote::orderBy('created_at', 'desc')->get();
+		$quotes = QueryBuilder::for(Quote::class)
+			->allowedFilters([
+				AllowedFilter::scope('search', 'search'),
+			])
+			->latest()->paginate(3);
 
 		return QuoteResource::collection($quotes);
 	}
