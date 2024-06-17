@@ -30,7 +30,7 @@ class MovieResource extends JsonResource
 				'director'                => $this->director,
 				'quotes'                  => QuoteResource::collection($this->quotes),
 				'description'             => $this->description,
-				'budget'                  => number_format($this->budget, 2) . '$',
+				'budget'                  => number_format((float) $this->budget, 2),
 			]),
 			$this->mergeWhen($request->route()->getName() === 'movies.edit', [
 				'title'                    => [

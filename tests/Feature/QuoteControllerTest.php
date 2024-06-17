@@ -227,3 +227,36 @@ test('User can successfully unlike a quote', function () {
 		'quote_id' => $quote->id,
 	]);
 });
+
+test('Quote can be successfully searched using # symbol', function () {
+	// Set locale to English.
+	$this->app->setLocale('en');
+
+	$user = User::factory()->create();
+	$quote = Quote::inRandomOrder()->firstOrFail();
+
+	$englishQuote = $quote->quote;
+
+	$quoteLength = mt_rand(1, 10);
+
+	$this->disableCookieEncryption();
+
+	// Get a random str length to imiate search.
+	$searchValue = '#' . mb_substr($englishQuote, 0, $quoteLength);
+
+	$this->actingAs($user);
+
+	$response = $this->withCookie('locale', 'en')->get(route('quotes.index', ['filter[search]' => $searchValue]));
+
+	$response->assertStatus(200);
+
+	$quotes = $response->json('data');
+
+	foreach ($quotes as $quote) {
+		$searchValueWithoutSign = mb_substr($searchValue, 1);
+
+		$valueInQuote = stripos($quote['quote'], $searchValueWithoutSign);
+
+		$this->assertNotFalse($valueInQuote);
+	}
+});
