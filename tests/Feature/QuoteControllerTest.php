@@ -260,3 +260,35 @@ test('Quote can be successfully searched using # symbol', function () {
 		$this->assertNotFalse($valueInQuote);
 	}
 });
+
+test('Georgian quote can be successfully searched using # symbol', function () {
+	// Set locale to English.
+	$this->app->setLocale('ka');
+
+	$user = User::factory()->create();
+	$quote = Quote::inRandomOrder()->firstOrFail();
+
+	$georgianQuote = $quote->quote;
+
+	$quoteLength = mt_rand(1, 10);
+
+	$this->disableCookieEncryption();
+
+	$searchValue = '#' . mb_substr($georgianQuote, 0, $quoteLength);
+
+	$this->actingAs($user);
+
+	$response = $this->withCookie('locale', 'ka')->get(route('quotes.index', ['filter[search]' => $searchValue]));
+
+	$response->assertStatus(200);
+
+	$quotes = $response->json('data');
+
+	foreach ($quotes as $quote) {
+		$searchValueWithoutSign = mb_substr($searchValue, 1);
+
+		$valueInQuote = stripos($quote['quote'], $searchValueWithoutSign);
+
+		$this->assertNotFalse($valueInQuote);
+	}
+});
