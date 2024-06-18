@@ -192,3 +192,65 @@ test('Movie can be successfully deleted', function () {
 
 	$this->assertDatabaseMissing('movies', ['id' => $movie->id]);
 });
+
+test('Movie can be successfully searched in English', function () {
+	$this->app->setLocale('en');
+
+	$user = User::factory()->create();
+	$movie = Movie::factory()->create([
+		'user_id' => $user->id,
+	]);
+
+	$englishTitle = $movie->title;
+
+	$titleLength = mt_rand(1, 10);
+
+	$this->disableCookieEncryption();
+
+	$searchValue = mb_substr($englishTitle, 0, $titleLength);
+
+	$this->actingAs($user);
+
+	$response = $this->withCookie('locale', 'en')->get(route('movies.index', ['filter[search]' => $searchValue]));
+
+	$response->assertStatus(200);
+
+	$movies = $response->json('data');
+
+	foreach ($movies as $movie) {
+		$valueInTitle = stripos($movie['title'], $searchValue);
+
+		$this->assertNotFalse($valueInTitle);
+	}
+});
+
+test('Movie can be successfully searched in Georgian', function () {
+	$this->app->setLocale('ka');
+
+	$user = User::factory()->create();
+	$movie = Movie::factory()->create([
+		'user_id' => $user->id,
+	]);
+
+	$georgianTitle = $movie->title;
+
+	$titleLength = mt_rand(1, 10);
+
+	$this->disableCookieEncryption();
+
+	$searchValue = mb_substr($georgianTitle, 0, $titleLength);
+
+	$this->actingAs($user);
+
+	$response = $this->withCookie('locale', 'ka')->get(route('movies.index', ['filter[search]' => $searchValue]));
+
+	$response->assertStatus(200);
+
+	$movies = $response->json('data');
+
+	foreach ($movies as $movie) {
+		$valueInTitle = stripos($movie['title'], $searchValue);
+
+		$this->assertNotFalse($valueInTitle);
+	}
+});

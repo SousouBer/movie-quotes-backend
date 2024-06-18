@@ -227,3 +227,129 @@ test('User can successfully unlike a quote', function () {
 		'quote_id' => $quote->id,
 	]);
 });
+
+test('Quote can be successfully searched using # symbol', function () {
+	// Set locale to English.
+	$this->app->setLocale('en');
+
+	$user = User::factory()->create();
+	$quote = Quote::inRandomOrder()->firstOrFail();
+
+	$englishQuote = $quote->quote;
+
+	$quoteLength = mt_rand(1, 10);
+
+	$this->disableCookieEncryption();
+
+	// Get a random str length to imiate search.
+	$searchValue = '#' . mb_substr($englishQuote, 0, $quoteLength);
+
+	$this->actingAs($user);
+
+	$response = $this->withCookie('locale', 'en')->get(route('quotes.index', ['filter[search]' => $searchValue]));
+
+	$response->assertStatus(200);
+
+	$quotes = $response->json('data');
+
+	foreach ($quotes as $quote) {
+		$searchValueWithoutSign = mb_substr($searchValue, 1);
+
+		$valueInQuote = stripos($quote['quote'], $searchValueWithoutSign);
+
+		$this->assertNotFalse($valueInQuote);
+	}
+});
+
+test('Georgian quote can be successfully searched using # symbol', function () {
+	$this->app->setLocale('ka');
+
+	$user = User::factory()->create();
+	$quote = Quote::inRandomOrder()->firstOrFail();
+
+	$georgianQuote = $quote->quote;
+
+	$quoteLength = mt_rand(1, 10);
+
+	$this->disableCookieEncryption();
+
+	$searchValue = '#' . mb_substr($georgianQuote, 0, $quoteLength);
+
+	$this->actingAs($user);
+
+	$response = $this->withCookie('locale', 'ka')->get(route('quotes.index', ['filter[search]' => $searchValue]));
+
+	$response->assertStatus(200);
+
+	$quotes = $response->json('data');
+
+	foreach ($quotes as $quote) {
+		$searchValueWithoutSign = mb_substr($searchValue, 1);
+
+		$valueInQuote = stripos($quote['quote'], $searchValueWithoutSign);
+
+		$this->assertNotFalse($valueInQuote);
+	}
+});
+
+test('Movie title in Quote can be successfully searched using @ symbol, in English', function () {
+	$this->app->setLocale('en');
+
+	$user = User::factory()->create();
+	$movie = Movie::inRandomOrder()->firstOrFail();
+	$quote = Quote::inRandomOrder()->firstOrFail();
+
+	$quote->movie()->associate($movie->id);
+
+	$titleLength = mt_rand(1, 10);
+
+	$this->disableCookieEncryption();
+
+	$searchValue = '@' . mb_substr($movie->title, 0, $titleLength);
+
+	$this->actingAs($user);
+
+	$response = $this->withCookie('locale', 'en')->get(route('quotes.index', ['filter[search]' => $searchValue]));
+
+	$response->assertStatus(200);
+
+	$quotes = $response->json('data');
+
+	foreach ($quotes as $quote) {
+		$searchValueWithoutSign = mb_substr($searchValue, 1);
+		$valueInMovieTitle = stripos($quote['movie']['title'], $searchValueWithoutSign);
+
+		$this->assertNotFalse($valueInMovieTitle);
+	}
+});
+
+test('Movie title in Quote can be successfully searched using @ symbol, in Georgian', function () {
+	$this->app->setLocale('ka');
+
+	$user = User::factory()->create();
+	$movie = Movie::inRandomOrder()->firstOrFail();
+	$quote = Quote::inRandomOrder()->firstOrFail();
+
+	$quote->movie()->associate($movie->id);
+
+	$titleLength = mt_rand(1, 10);
+
+	$this->disableCookieEncryption();
+
+	$searchValue = '@' . mb_substr($movie->title, 0, $titleLength);
+
+	$this->actingAs($user);
+
+	$response = $this->withCookie('locale', 'ka')->get(route('quotes.index', ['filter[search]' => $searchValue]));
+
+	$response->assertStatus(200);
+
+	$quotes = $response->json('data');
+
+	foreach ($quotes as $quote) {
+		$searchValueWithoutSign = mb_substr($searchValue, 1);
+		$valueInMovieTitle = stripos($quote['movie']['title'], $searchValueWithoutSign);
+
+		$this->assertNotFalse($valueInMovieTitle);
+	}
+});
