@@ -21,13 +21,13 @@ class DatabaseSeeder extends Seeder
 
 		$genres = Genre::all();
 
-		User::factory(rand(1, 5))->create()->each(function ($user) use ($genres) {
+		User::factory(rand(1, 2))->create()->each(function ($user) use ($genres) {
 			Movie::factory(rand(1, 5))->create([
 				'user_id' => $user->id,
 			])->each(function ($movie) use ($genres, $user) {
 				$movie->genres()->attach($genres->random(rand(1, 10)));
 
-				Quote::factory(rand(1, 10))->create([
+				Quote::factory(rand(1, 2))->create([
 					'user_id'  => $user->id,
 					'movie_id' => $movie->id,
 				])->each(function ($quote) use ($user) {
