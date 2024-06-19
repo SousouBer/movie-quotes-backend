@@ -14,7 +14,7 @@ class MovieFactory extends Factory
 		return [
 			'title' => [
 				'en' => fake()->words(rand(2, 5), true),
-				'ka' => fake('ka_GE')->words(rand(2, 5), true),
+				'ka' => fake('ka_GE')->realText(10),
 			],
 			'description' => [
 				'en' => fake()->realText(100),

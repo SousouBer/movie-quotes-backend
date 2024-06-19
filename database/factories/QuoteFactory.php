@@ -16,7 +16,7 @@ class QuoteFactory extends Factory
 				'en' => fake()->realtext(50),
 				'ka' => fake('ka_GE')->realtext(50),
 			],
-			'picture'   => fake()->imageUrl(),
+			'picture'   => asset('images/default-quote-image.jpg'),
 		];
 	}
 }
