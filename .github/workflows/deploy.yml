@@ -13,13 +13,6 @@ jobs:
           node-version: 18
       - name: copy env file
         run: cp .env.example .env
-      - name: Install composer Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-      - name: Setup Project
-        run: |
-          php artisan config:clear
-          php artisan cache:clear
-          php artisan key:generate
       - name: Set ssh key 
         run: |
           mkdir -p ~/.ssh
@@ -35,4 +28,5 @@ jobs:
             composer install
             php artisan migrate
             php artisan optimize:clear
+            php artisan optimize
           EOF
