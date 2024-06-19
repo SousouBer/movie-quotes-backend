@@ -12,13 +12,13 @@ class GoogleAuthController extends Controller
 {
 	public function redirect(Request $request): JsonResponse
 	{
-		$redirectUrl = Socialite::driver('google')->stateless()->redirect()->getTargetUrl();
+		$redirectUrl = Socialite::driver('google')->redirect()->getTargetUrl();
 		return response()->json(['redirectUrl' => $redirectUrl], 200);
 	}
 
-	public function callback(Request $request): JsonResponse
+	public function callback(): JsonResponse
 	{
-		$googleUser = Socialite::driver('google')->stateless()->user();
+		$googleUser = Socialite::driver('google')->user();
 
 		$accountExists = User::where('email', $googleUser->email)->first();
 
@@ -36,6 +36,7 @@ class GoogleAuthController extends Controller
 		]);
 
 		Auth::login($googleUser);
+		session()->regenerate();
 
 		return response()->json(['message' => 'User successfully logged in'], 200);
 	}
