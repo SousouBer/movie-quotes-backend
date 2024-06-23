@@ -1,66 +1,229 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<div>
+	<h1 align="center">Movie Quotes</h1>
+</div>
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Welcome to Movie Quotes!
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+This application allows you to manage a collection of your favorite movies and their memorable quotes.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+You can register, log in, and explore the app. Additionally, you have the option to log in using your Google account through Laravel Socialite. The application also supports password resets and email verification to ensure secure access to your account. Once logged in, you will be redirected to the news feed page. Here, you can view all the quotes shared by other users, along with their details, images, and comments. You can see the number of likes and comments each quote has received. What's more, you can like, unlike, or comment on any quote, with real-time notifications informing users when their quotes receive interactions.
 
-## Learning Laravel
+You can add information about movies, including details and images, and attach quotes to them. These will then be visible on the news feed for others to enjoy. Additionally, you can edit and delete both movies and quotes, giving you full control over your contributions. 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+The application is bilingual, supporting both English and Georgian, so you can use it in the language you prefer.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Users can also edit their profile details, such as their image, username, and password. The user-friendly interface ensures a smooth experience as you personalize your profile and engage with the community.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+We are confident that you will have a good time using Movie Quotes and make meaningful connections along the way. Dive in and start sharing your favorite movie moments with others!
 
-## Laravel Sponsors
+#
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Table of Contents
 
-### Premium Partners
+- [Prerequisites](#prerequisites)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Development](#development)
+- [Resources](#resources)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+#
 
-## Contributing
+### Prerequisites
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+-  PHP@8.3.2 and up
+-  Composer@2.7.1 and up
+- MySQL@8.0 and up
 
-## Code of Conduct
+#
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Tech Stack
 
-## Security Vulnerabilities
+- [Laravel@11.x](https://laravel.com/docs/11.x) - Back-end Framework.
+ - [Laravel Pusher](https://laravel.com/docs/11.x/broadcasting#pusher-channels) - package for real-time notifications.
+- [Spatie Translatable](https://github.com/spatie/laravel-translatable
+) - package for translations.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
+#
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Getting Started
+
+1\. At first, you need to clone Back-end Movie Quotes Application repository from github:
+
+```sh
+git clone git@github.com:RedberryInternship/movie-quotes-back-soso-beriashvili.git
+```  
+
+2\. Next step requires you to run _composer install_ in order to install all the dependencies:
+
+  
+
+```sh
+
+composer install
+
+```
+
+  
+
+5\. Now set your env file. Go to the root of your Back-end project and execute the following command.
+
+  
+
+```sh
+
+cp .env.example .env
+
+```
+
+  
+
+And now you should provide **.env** file all the necessary  variables.
+#  
+
+### Env variable cofigurations:
+
+ ####  1) Database variables:
+
+> DB_CONNECTION=mysql 
+
+> DB_HOST=127.0.0.1 
+
+> DB_PORT=3306  
+
+> DB_DATABASE=**\***  
+
+> DB_USERNAME=**\***  
+
+> DB_PASSWORD=**\***
+
+ ####  2) Gmail variables for receiving Emails:
+
+
+> MAIL_MAILER=smtp
+
+> MAIL_HOST=smtp.gmail.com
+
+> MAIL_PORT=465
+
+> MAIL_USERNAME=
+
+> MAIL_PASSWORD=
+
+> MAIL_ENCRYPTION=ssl
+
+> MAIL_FROM_NAME=
+  
+ ####  3) Pusher variables for receiving real-time notifications:
+
+> PUSHER_APP_ID=
+
+> PUSHER_APP_KEY=
+
+> PUSHER_APP_SECRET=
+
+> PUSHER_HOST=
+
+ >PUSHER_PORT=443
+
+ >PUSHER_SCHEME=
+
+  >PUSHER_APP_CLUSTER=
+
+#### 4) Google OAuth variables:
+
+> GOOGLE_CLIENT_ID=
+
+> GOOGLE_CLIENT_SECRET=
+
+> GOOGLE_REDIRECT=
+
+After setting up **.env** file, execute this command in order to cache environment variables:
+
+  
+
+```sh
+
+php artisan config:cache
+php artisan optimize
+
+```
+
+  
+
+6\. Having successfully done that, execute the following:
+
+  
+
+```sh
+
+php artisan key:generate
+
+```
+
+  
+
+Which generates auth key.
+
+  
+
+#
+
+  
+
+### Migration
+
+  
+
+After successfully following the previous steps, you now need to migrate the database:
+
+  
+
+```sh
+
+php artisan migrate
+
+```
+
+  
+
+### Development
+
+  
+
+In order to seed the database to test the application for the development purposes. you can run:
+
+  
+
+```sh
+
+php artisan migrate --seed
+
+```
+
+  
+
+And to run the development server:
+
+  
+
+```sh
+
+php artisan serve
+
+```
+
+  
+
+#
+
+### And that is it for setting up the Back-end part of the Movie Quotes' application!
+#
+
+### Resources
+
+- [Detailed description of the project](https://redberry.gitbook.io/assignment-v-movie-quotes-upgraded/platpormis-gverdebi/pilmebi/pilmebis-sia)
+- [Figma design of the project](https://www.figma.com/file/5uMXCg3itJwpzh9cVIK3hA/Movie-Quotes-Bootcamp-assignment?node-id=0%3A1)
+- [DrawSQL Schema of the project](https://drawsql.app/teams/team-soso/diagrams/movie-quotes)
